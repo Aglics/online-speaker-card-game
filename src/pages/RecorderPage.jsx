@@ -199,24 +199,24 @@ export default function RecorderPage({
 
             <div className="grid grid-cols-2 gap-4">
               <PromptCard
-                label="Security"
-                value={activePrompts.security}
-                onClick={() => drawPrompt("security")}
+                label="Mic_Check_Cards"
+                value={activePrompts.Mic_Check_Cards}
+                onClick={() => drawPrompt("Mic_Check_Cards")}
               />
               <PromptCard
-                label="AI"
-                value={activePrompts.ai}
-                onClick={() => drawPrompt("ai")}
+                label="Challenge_Cards"
+                value={activePrompts.Challenge_Cards}
+                onClick={() => drawPrompt("Challenge_Cards")}
               />
               <PromptCard
-                label="Gameplay"
-                value={activePrompts.gameplay}
-                onClick={() => drawPrompt("gameplay")}
+                label="Sponsored_By_Cards"
+                value={activePrompts.Sponsored_By_Cards}
+                onClick={() => drawPrompt("Sponsored_By_Cards")}
               />
               <PromptCard
-                label="UX"
-                value={activePrompts.ux}
-                onClick={() => drawPrompt("ux")}
+                label="Script_Cards"
+                value={activePrompts.Script_Cards}
+                onClick={() => drawPrompt("Script_Cards")}
               />
             </div>
           </div>
