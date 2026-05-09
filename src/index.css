@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+/* Override: disable Tailwind backdrop-blur utilities when you want no blur.
+   This prevents the generated --tw-backdrop-blur: blur(...) from producing a visual blur.
+*/
+[class*="backdrop-blur"] {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Ensure camera preview video is not mirrored by default. If the camera or CSS
+   previously applied a horizontal flip, force the video to display upright.
+*/
+video {
+  transform: none !important;
+  -webkit-transform: none !important;
+  transform-origin: center center !important;
+}
