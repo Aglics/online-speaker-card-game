@@ -44,29 +44,32 @@ export default function ResultPage({ videoURL, videoMetadata, activePrompts, onR
           </div>
 
           <div className="mt-6 bg-white/5 border border-white/10 rounded-2xl p-5">
-            <h3 className="text-sm font-semibold text-gray-200 mb-2">
-              Transcript
+            <h3 className="text-sm font-semibold text-gray-200 mb-3">
+              Transcript & Audio Information
             </h3>
             {videoMetadata ? (
-              <p className="text-sm text-gray-300 leading-relaxed">
-                The backend received a video file named{' '}
-                <span className="text-white font-semibold">
-                  {videoMetadata.originalName}
-                </span>
-                . File type is{' '}
-                <span className="text-white font-semibold">
-                  {videoMetadata.mimeType}
-                </span>
-                , size is{' '}
-                <span className="text-white font-semibold">
-                  {videoMetadata.size} bytes
-                </span>
-                , and processing time was{' '}
-                <span className="text-white font-semibold">
-                  {videoMetadata.processingMs}ms
-                </span>
-                .
-              </p>
+              <div className="space-y-4">
+                <div>
+                  <h4 className="text-xs text-gray-400 font-semibold mb-2">Video Information</h4>
+                  <p className="text-sm text-gray-300 leading-relaxed">
+                    Video file: <span className="text-white font-semibold">{videoMetadata.videoInfo?.originalName}</span> ({videoMetadata.videoInfo?.mimeType})<br />
+                    Size: <span className="text-white font-semibold">{videoMetadata.videoInfo?.size} bytes</span>
+                  </p>
+                </div>
+                <div className="border-t border-white/10 pt-4">
+                  <h4 className="text-xs text-gray-400 font-semibold mb-2">Extracted Audio Information</h4>
+                  <p className="text-sm text-gray-300 leading-relaxed">
+                    Format: <span className="text-white font-semibold">{videoMetadata.audioInfo?.format?.toUpperCase()}</span><br />
+                    Duration: <span className="text-white font-semibold">{videoMetadata.audioInfo?.duration}s</span><br />
+                    Codec: <span className="text-white font-semibold">{videoMetadata.audioInfo?.codec}</span><br />
+                    Bitrate: <span className="text-white font-semibold">{videoMetadata.audioInfo?.bitrate} kbps</span><br />
+                    Size: <span className="text-white font-semibold">{(videoMetadata.audioInfo?.size / 1024).toFixed(2)} KB</span>
+                  </p>
+                </div>
+                <div className="border-t border-white/10 pt-4 text-xs text-gray-400">
+                  Processing completed in {videoMetadata.processingMs}ms
+                </div>
+              </div>
             ) : (
               <p className="text-sm text-gray-400">
                 Transcript information is not available.

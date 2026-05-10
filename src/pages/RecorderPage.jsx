@@ -105,20 +105,31 @@ export default function RecorderPage({
     formData.append("video", blob, "recording.webm");
 
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+
       const response = await fetch("/api/process-video", {
         method: "POST",
         body: formData,
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
-        throw new Error("Upload failed");
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Upload failed");
       }
 
       const result = await response.json();
       return result;
     } catch (err) {
       console.error("Upload error:", err);
-      alert("Video upload failed. Please try again.");
+      if (err.name === "AbortError") {
+        alert("Request timeout. Please check your internet connection and try again.");
+      } else {
+        alert("Video upload failed: " + err.message);
+      }
       return null;
     } finally {
       setProcessing(false);
@@ -157,8 +168,8 @@ export default function RecorderPage({
 
           <div
             className={`px-4 py-2 rounded-xl border text-sm font-semibold ${recording
-                ? "bg-red-500/15 border-red-500/40 text-red-300"
-                : "bg-white/5 border-white/10 text-gray-300"
+              ? "bg-red-500/15 border-red-500/40 text-red-300"
+              : "bg-white/5 border-white/10 text-gray-300"
               }`}
           >
             {recording ? "● Recording" : "Idle"}
