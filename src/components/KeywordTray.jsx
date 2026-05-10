@@ -4,7 +4,7 @@ export default function KeywordTray({ activePrompts }) {
       {Object.entries(activePrompts || {}).map(([k, v]) => (
         <span
           key={k}
-          className="text-xs px-3 py-1 bg-white/10 rounded-full border border-white/10 text-gray-300"
+          className="text-BASE px-3 py-1 bg-white/10 rounded-full border border-white/10 text-gray-300"
         >
           {v}
         </span>
