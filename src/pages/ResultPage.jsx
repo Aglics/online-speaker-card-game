@@ -14,7 +14,7 @@ export default function ResultPage({ videoURL, videoMetadata, activePrompts, onR
           <h1 className="text-3xl font-extrabold tracking-tight">
             AI Coaching Report
           </h1>
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-gray-400 text-base mt-1">
             Review your recording and performance insights.
           </p>
         </div>
@@ -82,7 +82,7 @@ export default function ResultPage({ videoURL, videoMetadata, activePrompts, onR
         <div className="col-span-5 flex flex-col gap-6">
           {/* Metrics */}
           <div className="bg-gradient-to-br from-purple-600/20 to-blue-600/20 border border-white/10 rounded-3xl p-6">
-            <h2 className="text-sm font-semibold text-gray-200 mb-4">
+            <h2 className="text-base font-semibold text-gray-200 mb-4">
               Performance Summary
             </h2>
 
@@ -106,7 +106,7 @@ export default function ResultPage({ videoURL, videoMetadata, activePrompts, onR
 
           {/* Selected Cards */}
           <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
-            <h2 className="text-sm text-gray-300 font-semibold mb-4">
+            <h2 className="text-base text-gray-300 font-semibold mb-4">
               Selected Challenge Cards
             </h2>
 
@@ -135,7 +135,7 @@ export default function ResultPage({ videoURL, videoMetadata, activePrompts, onR
               AI Feedback (Demo)
             </h2>
 
-            <ul className="text-sm text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-sm text-gray-5000 leading-relaxed space-y-2">
               <li>✅ Strong structure and clear topic progression</li>
               <li>⚠ Reduce filler words (“um”, “like”) to improve confidence</li>
               <li>💡 Try using a slower pace for key points</li>

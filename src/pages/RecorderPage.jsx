@@ -156,7 +156,7 @@ export default function RecorderPage({
           <h1 className="text-3xl font-extrabold tracking-tight">
             Practice Studio
           </h1>
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-gray-400 text-base mt-1">
             Record your response and get AI coaching feedback instantly.
           </p>
         </div>
@@ -182,7 +182,7 @@ export default function RecorderPage({
         {/* Video Section */}
         <div className="col-span-7 bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-sm text-gray-300 font-semibold">
+            <h2 className="text-lg text-gray-300 font-semibold">
               Live Camera Feed
             </h2>
             <div className="text-gray-400 text-sm font-mono">
@@ -237,7 +237,7 @@ export default function RecorderPage({
         <div className="col-span-5 flex flex-col gap-6">
           {/* Cards */}
           <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
-            <h2 className="text-sm text-gray-300 font-semibold mb-4">
+            <h2 className="text-base text-gray-300 font-semibold mb-4">
               Challenge Cards
             </h2>
 
@@ -267,7 +267,7 @@ export default function RecorderPage({
 
           {/* Keywords */}
           <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
-            <h2 className="text-sm text-gray-300 font-semibold mb-3">
+            <h2 className="text-BASE text-gray-300 font-semibold mb-3">
               Active Keywords
             </h2>
 
