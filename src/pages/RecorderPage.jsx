@@ -106,7 +106,7 @@ export default function RecorderPage({
 
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 second timeout
 
       const response = await fetch("/api/process-video", {
         method: "POST",
@@ -292,8 +292,8 @@ export default function RecorderPage({
           <div className="max-w-lg w-full rounded-3xl border border-white/10 bg-slate-950/95 p-8 text-center shadow-2xl">
             <div className="text-xl font-bold text-white mb-3">Processing your video</div>
             <p className="text-gray-300 mb-6">
-              Uploading the recording to the backend and simulating processing.
-              Please wait about ten seconds.
+              Uploading the recording to the backend and transcribing the audio.
+              Please wait while the model processes your speech.
             </p>
             <div className="inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm text-gray-200">
               <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />

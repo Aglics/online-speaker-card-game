@@ -1,15 +1,23 @@
+/* global process */
+import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import multer from "multer";
 import ffmpeg from "fluent-ffmpeg";
 import ffmpegStatic from "ffmpeg-static";
 import ffprobeStatic from "ffprobe-static";
-import { writeFileSync, unlinkSync, statSync } from "fs";
+import { InferenceClient } from "@huggingface/inference";
+import { writeFileSync, unlinkSync, statSync, readFileSync } from "fs";
 import { join } from "path";
 import { fileURLToPath } from "url";
 
+dotenv.config();
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = __filename.substring(0, __filename.lastIndexOf("\\"));
+
+const hfToken = process.env.HF_TOKEN;
+const hfClient = hfToken ? new InferenceClient(hfToken) : null;
 
 // Set FFmpeg and FFprobe paths
 if (ffmpegStatic) {
@@ -32,7 +40,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 app.use(cors());
 
-function getAudioDurationFromBuffer(filePath) {
+function getAudioDuration(filePath) {
     return new Promise((resolve, reject) => {
         ffmpeg.ffprobe(filePath, (err, metadata) => {
             if (err) {
@@ -45,6 +53,46 @@ function getAudioDurationFromBuffer(filePath) {
             }
         });
     });
+}
+
+function cleanTranscript(text) {
+    return text.replace(/\s+/g, " ").trim();
+}
+
+function extractTranscript(result) {
+    if (typeof result === "string") {
+        return cleanTranscript(result);
+    }
+    if (result?.text) {
+        return cleanTranscript(result.text);
+    }
+    if (result?.generated_text) {
+        return cleanTranscript(result.generated_text);
+    }
+    if (Array.isArray(result) && result[0]?.text) {
+        return cleanTranscript(result[0].text);
+    }
+    return cleanTranscript(JSON.stringify(result));
+}
+
+async function transcribeAudio(buffer) {
+    if (!hfClient) {
+        throw new Error("Missing HF_TOKEN environment variable");
+    }
+
+    const audioBlob = new Blob([buffer], { type: "audio/mpeg" });
+    console.log("Transcribing audio blob size:", audioBlob.size, "bytes", "type:", audioBlob.type);
+
+    const result = await hfClient.automaticSpeechRecognition({
+        inputs: audioBlob,
+        model: "openai/whisper-large-v3",
+        provider: "hf-inference",
+        // options: {
+        //     language: "french",
+        // },
+    });
+
+    return result;
 }
 
 app.post("/api/process-video", upload.single("video"), async (req, res) => {
@@ -71,7 +119,7 @@ app.post("/api/process-video", upload.single("video"), async (req, res) => {
             console.log("Starting FFmpeg conversion...");
 
             ffmpeg(videoPath)
-                .noVideo() // Remove video stream
+                .noVideo()
                 .audioCodec("libmp3lame")
                 .audioBitrate("128k")
                 .audioChannels(2)
@@ -81,7 +129,9 @@ app.post("/api/process-video", upload.single("video"), async (req, res) => {
                     console.log("FFmpeg command:", commandLine);
                 })
                 .on("progress", (progress) => {
-                    console.log("Progress:", Math.round(progress.percent || 0) + "%");
+                    if (progress.percent) {
+                        console.log("Progress:", Math.round(progress.percent) + "%");
+                    }
                 })
                 .on("end", () => {
                     console.log("FFmpeg conversion completed successfully");
@@ -101,13 +151,21 @@ app.post("/api/process-video", upload.single("video"), async (req, res) => {
         const audioSize = audioStats.size;
         console.log("Audio file size:", audioSize, "bytes");
 
+        // Transcribe audio with Hugging Face
+        const audioBuffer = readFileSync(audioPath);
+        console.log("Sending audio to Hugging Face for transcription...");
+        const modelOutput = await transcribeAudio(audioBuffer);
+        console.log("Output received:", modelOutput);
+        const transcript = extractTranscript(modelOutput);
+        console.log("Transcript received:", transcript);
+
         // Get audio duration
         console.log("Getting audio duration...");
-        const duration = await getAudioDurationFromBuffer(audioPath);
-        const conversionTime = Date.now() - conversionStartTime;
+        const duration = await getAudioDuration(audioPath);
+        const processingMs = Date.now() - conversionStartTime;
 
         console.log("Audio duration:", duration, "seconds");
-        console.log("Conversion time:", conversionTime, "ms");
+        console.log("Total processing time:", processingMs, "ms");
 
         // Clean up temporary files
         try {
@@ -139,7 +197,8 @@ app.post("/api/process-video", upload.single("video"), async (req, res) => {
                 duration: Number(duration.toFixed(2)),
                 size: audioSize,
             },
-            processingMs: conversionTime,
+            transcript,
+            processingMs,
             receivedAt: new Date().toISOString(),
         };
 
