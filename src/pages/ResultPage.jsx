@@ -14,7 +14,7 @@ export default function ResultPage({ videoURL, activePrompts, onRestart }) {
           <h1 className="text-3xl font-extrabold tracking-tight">
             AI Coaching Report
           </h1>
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-gray-400 text-base mt-1">
             Review your recording and performance insights.
           </p>
         </div>
@@ -50,11 +50,11 @@ export default function ResultPage({ videoURL, activePrompts, onRestart }) {
             <p className="text-sm text-gray-300 leading-relaxed">
               Today we discussed{" "}
               <span className="text-white font-semibold">
-                {activePrompts.security || "Security"}
+                {activePrompts.Mic_Check_Cards|| "Mic_Check_Cards"}
               </span>{" "}
               and how it connects with{" "}
               <span className="text-white font-semibold">
-                {activePrompts.ai || "AI development"}
+                {activePrompts.Challenge_Cards || "Challenge_Cards"}
               </span>
               . I explained the importance of clear communication and structured
               responses.
@@ -66,7 +66,7 @@ export default function ResultPage({ videoURL, activePrompts, onRestart }) {
         <div className="col-span-5 flex flex-col gap-6">
           {/* Metrics */}
           <div className="bg-gradient-to-br from-purple-600/20 to-blue-600/20 border border-white/10 rounded-3xl p-6">
-            <h2 className="text-sm font-semibold text-gray-200 mb-4">
+            <h2 className="text-base font-semibold text-gray-200 mb-4">
               Performance Summary
             </h2>
 
@@ -90,7 +90,7 @@ export default function ResultPage({ videoURL, activePrompts, onRestart }) {
 
           {/* Selected Cards */}
           <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
-            <h2 className="text-sm text-gray-300 font-semibold mb-4">
+            <h2 className="text-base text-gray-300 font-semibold mb-4">
               Selected Challenge Cards
             </h2>
 
@@ -119,7 +119,7 @@ export default function ResultPage({ videoURL, activePrompts, onRestart }) {
               AI Feedback (Demo)
             </h2>
 
-            <ul className="text-sm text-gray-300 leading-relaxed space-y-2">
+            <ul className="text-sm text-gray-5000 leading-relaxed space-y-2">
               <li>✅ Strong structure and clear topic progression</li>
               <li>⚠ Reduce filler words (“um”, “like”) to improve confidence</li>
               <li>💡 Try using a slower pace for key points</li>
