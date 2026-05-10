@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-export default function ResultPage({ videoURL, activePrompts, onRestart }) {
+export default function ResultPage({ videoURL, videoMetadata, activePrompts, onRestart }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -45,20 +45,33 @@ export default function ResultPage({ videoURL, activePrompts, onRestart }) {
 
           <div className="mt-6 bg-white/5 border border-white/10 rounded-2xl p-5">
             <h3 className="text-sm font-semibold text-gray-200 mb-2">
-              Transcript (Demo)
+              Transcript
             </h3>
-            <p className="text-sm text-gray-300 leading-relaxed">
-              Today we discussed{" "}
-              <span className="text-white font-semibold">
-                {activePrompts.security || "Security"}
-              </span>{" "}
-              and how it connects with{" "}
-              <span className="text-white font-semibold">
-                {activePrompts.ai || "AI development"}
-              </span>
-              . I explained the importance of clear communication and structured
-              responses.
-            </p>
+            {videoMetadata ? (
+              <p className="text-sm text-gray-300 leading-relaxed">
+                The backend received a video file named{' '}
+                <span className="text-white font-semibold">
+                  {videoMetadata.originalName}
+                </span>
+                . File type is{' '}
+                <span className="text-white font-semibold">
+                  {videoMetadata.mimeType}
+                </span>
+                , size is{' '}
+                <span className="text-white font-semibold">
+                  {videoMetadata.size} bytes
+                </span>
+                , and processing time was{' '}
+                <span className="text-white font-semibold">
+                  {videoMetadata.processingMs}ms
+                </span>
+                .
+              </p>
+            ) : (
+              <p className="text-sm text-gray-400">
+                Transcript information is not available.
+              </p>
+            )}
           </div>
         </div>
 
