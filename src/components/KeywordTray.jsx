@@ -1,11 +1,8 @@
 export default function KeywordTray({ activePrompts }) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="keyword-tray">
       {Object.entries(activePrompts || {}).map(([k, v]) => (
-        <span
-          key={k}
-          className="text-BASE px-3 py-1 bg-white/10 rounded-full border border-white/10 text-gray-300"
-        >
+        <span key={k} className="keyword-tag">
           {v}
         </span>
       ))}

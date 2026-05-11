@@ -9,30 +9,22 @@ export default function App() {
   const [activePrompts, setActivePrompts] = useState({});
 
   return (
-    <div className="min-h-screen bg-[#05070F] text-white overflow-hidden">
+    <div className="app-shell min-h-screen overflow-hidden">
       {/* Background Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#6D28D9_0%,transparent_45%),radial-gradient(circle_at_bottom,#2563EB_0%,transparent_50%)] opacity-40 blur-2xl" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(172,27,20,0.12)_0%,transparent_40%),radial-gradient(circle_at_bottom,rgba(16,24,40,0.06)_0%,transparent_60%)] opacity-70" />
 
       <div className="relative flex min-h-screen">
         {/* Sidebar */}
-        <aside className="w-[280px] border-r border-white/10 bg-white/5 backdrop-blur-xl p-6 flex flex-col">
+        <aside className="sidebar-panel shadow-soft">
           <div className="text-2xl font-extrabold tracking-tight">
-            AI<span className="text-purple-400">Speaker Testing</span>
+            AI<span className="text-[#ac1b14]">Speaker Testing</span>
           </div>
 
-          <div className="mt-8 flex flex-col gap-2 text-sm text-gray-300">
-            <div className="px-4 py-3 rounded-xl bg-white/10 border border-white/10">
-              🎥 Practice Studio
-            </div>
-            <div className="px-4 py-3 rounded-xl hover:bg-white/10 transition cursor-pointer">
-              📊 Performance
-            </div>
-            <div className="px-4 py-3 rounded-xl hover:bg-white/10 transition cursor-pointer">
-              📁 Sessions
-            </div>
-            <div className="px-4 py-3 rounded-xl hover:bg-white/10 transition cursor-pointer">
-              ⚙ Settings
-            </div>
+          <div className="mt-8 flex flex-col gap-2 text-sm">
+            <div className="sidebar-link active">🎥 Practice Studio</div>
+            <div className="sidebar-link">📊 Performance</div>
+            <div className="sidebar-link">📁 Sessions</div>
+            <div className="sidebar-link">⚙ Settings</div>
           </div>
 
           <div className="mt-auto text-xs text-gray-400">

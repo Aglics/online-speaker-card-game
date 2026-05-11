@@ -161,36 +161,33 @@ export default function RecorderPage({
           </p>
         </div>
 
-        <div className="flex gap-3">
-          <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-sm text-gray-300">
-            Session: <span className="text-white font-semibold">#AIO-001</span>
-          </div>
-
-          <div
-            className={`px-4 py-2 rounded-xl border text-sm font-semibold ${recording
-              ? "bg-red-500/15 border-red-500/40 text-red-300"
-              : "bg-white/5 border-white/10 text-gray-300"
-              }`}
-          >
-            {recording ? "● Recording" : "Idle"}
-          </div>
+        <div
+          className={`px-4 py-3 rounded-xl border text-sm font-semibold ${
+            recording
+              ? "bg-[#ac1b14] border-[#ac1b14] text-white"
+              : "bg-slate-100 border-slate-200 text-slate-900"
+          }`}
+        >
+          {recording ? "● Recording" : "● Idle"}
         </div>
       </div>
 
       {/* Main Layout */}
       <div className="grid grid-cols-12 gap-6">
-        {/* Video Section */}
-        <div className="col-span-7 bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
+        {/* Left: Video + Keywords */}
+        <div className="col-span-7 flex flex-col gap-6">
+          {/* Video Card */}
+          <div className="surface-card shadow-soft p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg text-gray-300 font-semibold">
+            <h2 className="text-lg text-slate-900 font-semibold">
               Live Camera Feed
             </h2>
-            <div className="text-gray-400 text-sm font-mono">
+            <div className="text-slate-700 text-sm font-mono">
               {formatTime(seconds)}
             </div>
           </div>
 
-          <div className="relative rounded-2xl overflow-hidden bg-black aspect-video border border-white/10">
+            <div className="relative rounded-2xl overflow-hidden bg-black aspect-video border border-slate-200">
             <video
               ref={videoRef}
               autoPlay
@@ -200,7 +197,7 @@ export default function RecorderPage({
             />
 
             {recording && (
-              <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-red-500/20 border border-red-500/40 text-red-300 text-xs font-bold animate-pulse">
+              <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#ac1b14] border border-[#ac1b14] text-white text-xs font-bold animate-pulse">
                 ● LIVE
               </div>
             )}
@@ -208,16 +205,16 @@ export default function RecorderPage({
 
           {/* Controls */}
           <div className="flex items-center justify-between mt-6">
-            <div className="text-gray-400 text-sm">
+            <div className="text-slate-700 text-sm">
               Maximum recording:{" "}
-              <span className="text-white font-semibold">2 minutes</span>
+              <span className="text-slate-900 font-semibold">2 minutes</span>
             </div>
 
             <div className="flex gap-3">
               <button
                 onClick={startRecording}
                 disabled={recording || processing}
-                className="px-6 py-3 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:opacity-90 transition shadow-lg disabled:opacity-40"
+                className="btn-primary disabled:opacity-40"
               >
                 Start Recording
               </button>
@@ -225,7 +222,7 @@ export default function RecorderPage({
               <button
                 onClick={stopRecording}
                 disabled={!recording || processing}
-                className="px-6 py-3 rounded-xl font-bold bg-white/10 border border-white/10 hover:bg-white/20 transition disabled:opacity-40"
+                className="btn-secondary disabled:opacity-40"
               >
                 Stop
               </button>
@@ -233,12 +230,22 @@ export default function RecorderPage({
           </div>
         </div>
 
-        {/* Right Panel */}
+          {/* Keywords */}
+          <div className="surface-card shadow-soft p-6">
+            <h2 className="section-title mb-4 text-slate-900">
+              Active Keywords
+            </h2>
+
+            <KeywordTray activePrompts={activePrompts} />
+          </div>
+        </div>
+
+        {/* Right: Prompt Cards + AI Tip */}
         <div className="col-span-5 flex flex-col gap-6">
           {/* Cards */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
-            <h2 className="text-base text-gray-300 font-semibold mb-4">
-              Challenge Cards
+          <div className="surface-card shadow-soft p-6">
+            <h2 className="section-title mb-4 text-slate-900">
+              Prompt Cards
             </h2>
 
             <div className="grid grid-cols-2 gap-4">
@@ -265,23 +272,15 @@ export default function RecorderPage({
             </div>
           </div>
 
-          {/* Keywords */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
-            <h2 className="text-BASE text-gray-300 font-semibold mb-3">
-              Active Keywords
-            </h2>
-
-            <KeywordTray activePrompts={activePrompts} />
-          </div>
 
           {/* AI Guidance */}
-          <div className="bg-gradient-to-br from-purple-600/20 to-blue-600/20 border border-white/10 rounded-3xl p-6">
-            <h2 className="text-sm font-semibold text-gray-200 mb-2">
+          <div className="surface-card shadow-soft p-6">
+            <h2 className="text-base font-semibold text-slate-900 mb-3">
               AI Tip
             </h2>
-            <p className="text-sm text-gray-300 leading-relaxed">
+            <p className="text-sm text-slate-700 leading-relaxed">
               Speak clearly, keep eye contact with the camera, and use keywords
-              naturally. Avoid filler words like “um” and “like”.
+              naturally. Avoid filler words like "um" and "like".
             </p>
           </div>
         </div>

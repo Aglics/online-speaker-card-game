@@ -19,10 +19,7 @@ export default function ResultPage({ videoURL, videoMetadata, activePrompts, onR
           </p>
         </div>
 
-        <button
-          onClick={onRestart}
-          className="px-6 py-3 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:opacity-90 transition shadow-lg"
-        >
+        <button onClick={onRestart} className="btn-primary">
           New Practice Session
         </button>
       </div>
@@ -30,29 +27,25 @@ export default function ResultPage({ videoURL, videoMetadata, activePrompts, onR
       {/* Main Layout */}
       <div className="grid grid-cols-12 gap-6">
         {/* Video */}
-        <div className="col-span-7 bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
-          <h2 className="text-sm text-gray-300 font-semibold mb-4">
+        <div className="col-span-7 surface-card shadow-soft p-6">
+          <h2 className="text-sm text-slate-900 font-semibold mb-4">
             Playback
           </h2>
 
-          <div className="rounded-2xl overflow-hidden bg-black border border-white/10">
-            <video
-              src={videoURL}
-              controls
-              className="w-full h-[360px] object-cover"
-            />
+          <div className="video-frame">
+            <video src={videoURL} controls />
           </div>
 
-          <div className="mt-6 bg-white/5 border border-white/10 rounded-2xl p-5">
-            <h3 className="text-sm font-semibold text-gray-200 mb-3">
+          <div className="mt-6 surface-panel p-5">
+            <h3 className="card-title text-slate-900">
               Transcript
             </h3>
             {videoMetadata?.transcript ? (
-              <p className="text-sm text-gray-300 leading-relaxed whitespace-pre-wrap">
+              <p className="text-sm text-slate-900 leading-relaxed whitespace-pre-wrap">
                 {videoMetadata.transcript}
               </p>
             ) : (
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-slate-700">
                 No transcript available.
               </p>
             )}
@@ -62,32 +55,32 @@ export default function ResultPage({ videoURL, videoMetadata, activePrompts, onR
         {/* Insights */}
         <div className="col-span-5 flex flex-col gap-6">
           {/* Metrics */}
-          <div className="bg-gradient-to-br from-purple-600/20 to-blue-600/20 border border-white/10 rounded-3xl p-6">
-            <h2 className="text-base font-semibold text-gray-200 mb-4">
+          <div className="surface-panel shadow-soft p-6">
+            <h2 className="section-title mb-4 text-slate-900">
               Performance Summary
             </h2>
 
             <div className="grid grid-cols-3 gap-4 text-center">
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                <div className="text-2xl font-extrabold text-white">135</div>
-                <div className="text-xs text-gray-400 mt-1">WPM</div>
+              <div className="element-card p-4 bg-slate-50 border-slate-100">
+                <div className="text-2xl font-extrabold text-slate-900">135</div>
+                <div className="text-xs text-slate-600 mt-1">WPM</div>
               </div>
 
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                <div className="text-2xl font-extrabold text-white">4</div>
-                <div className="text-xs text-gray-400 mt-1">Fillers</div>
+              <div className="element-card p-4 bg-slate-50 border-slate-100">
+                <div className="text-2xl font-extrabold text-slate-900">4</div>
+                <div className="text-xs text-slate-600 mt-1">Fillers</div>
               </div>
 
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                <div className="text-2xl font-extrabold text-white">A-</div>
-                <div className="text-xs text-gray-400 mt-1">Clarity</div>
+              <div className="element-card p-4 bg-slate-50 border-slate-100">
+                <div className="text-2xl font-extrabold text-slate-900">A-</div>
+                <div className="text-xs text-slate-600 mt-1">Clarity</div>
               </div>
             </div>
           </div>
 
           {/* Selected Cards */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl">
-            <h2 className="text-base text-gray-300 font-semibold mb-4">
+          <div className="surface-card shadow-soft p-6">
+            <h2 className="section-title mb-4 text-slate-900">
               Selected Challenge Cards
             </h2>
 
@@ -96,27 +89,27 @@ export default function ResultPage({ videoURL, videoMetadata, activePrompts, onR
                 Object.entries(activePrompts || {}).map(([key, val]) => (
                   <div
                     key={key}
-                    className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-gray-200"
+                    className="element-card px-4 py-3 text-sm text-slate-800 bg-slate-50 border-slate-100"
                   >
-                    <span className="text-purple-300 font-bold">
+                    <span className="text-[#ac1b14] font-bold">
                       {key.toUpperCase()}
                     </span>{" "}
                     • {val}
                   </div>
                 ))
               ) : (
-                <p className="text-sm text-gray-400">No cards selected.</p>
+                <p className="text-sm text-slate-700">No cards selected.</p>
               )}
             </div>
           </div>
 
           {/* Feedback */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
-            <h2 className="text-sm text-gray-300 font-semibold mb-3">
+          <div className="surface-card shadow-soft p-6">
+            <h2 className="text-base font-semibold text-slate-900 mb-3">
               AI Feedback (Demo)
             </h2>
 
-            <ul className="text-sm text-gray-5000 leading-relaxed space-y-2">
+            <ul className="text-sm text-slate-800 leading-relaxed space-y-2">
               <li>✅ Strong structure and clear topic progression</li>
               <li>⚠ Reduce filler words (“um”, “like”) to improve confidence</li>
               <li>💡 Try using a slower pace for key points</li>
