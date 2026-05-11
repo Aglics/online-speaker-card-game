@@ -5,6 +5,7 @@ import ResultPage from "./pages/ResultPage";
 export default function App() {
   const [view, setView] = useState("recorder");
   const [videoURL, setVideoURL] = useState(null);
+  const [videoMetadata, setVideoMetadata] = useState(null);
   const [activePrompts, setActivePrompts] = useState({});
 
   return (
@@ -45,6 +46,7 @@ export default function App() {
             <RecorderPage
               setView={setView}
               setVideoURL={setVideoURL}
+              setVideoMetadata={setVideoMetadata}
               activePrompts={activePrompts}
               setActivePrompts={setActivePrompts}
             />
@@ -53,8 +55,14 @@ export default function App() {
           {view === "result" && (
             <ResultPage
               videoURL={videoURL}
+              videoMetadata={videoMetadata}
               activePrompts={activePrompts}
-              onRestart={() => setView("recorder")}
+              onRestart={() => {
+                setView("recorder");
+                setVideoURL(null);
+                setVideoMetadata(null);
+                setActivePrompts({});
+              }}
             />
           )}
         </main>

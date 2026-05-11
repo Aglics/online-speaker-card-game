@@ -7,6 +7,7 @@ import { words } from "../utils/words.js";
 export default function RecorderPage({
   setView,
   setVideoURL,
+  setVideoMetadata,
   activePrompts,
   setActivePrompts,
 }) {
@@ -17,6 +18,7 @@ export default function RecorderPage({
 
   const [seconds, setSeconds] = useState(0);
   const [recording, setRecording] = useState(false);
+  const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
     async function setupCamera() {
@@ -79,16 +81,59 @@ export default function RecorderPage({
       if (e.data.size > 0) chunksRef.current.push(e.data);
     };
 
-    recorder.onstop = () => {
+    recorder.onstop = async () => {
       const blob = new Blob(chunksRef.current, { type: "video/webm" });
       const url = URL.createObjectURL(blob);
-      setVideoURL(url);
-      setView("result");
+      const metadata = await uploadVideo(blob);
+
+      if (metadata) {
+        setVideoMetadata(metadata);
+        setVideoURL(url);
+        setView("result");
+      }
     };
 
     recorder.start();
     setSeconds(0);
     setRecording(true);
+  }
+
+  async function uploadVideo(blob) {
+    setProcessing(true);
+
+    const formData = new FormData();
+    formData.append("video", blob, "recording.webm");
+
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 second timeout
+
+      const response = await fetch("/api/process-video", {
+        method: "POST",
+        body: formData,
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Upload failed");
+      }
+
+      const result = await response.json();
+      return result;
+    } catch (err) {
+      console.error("Upload error:", err);
+      if (err.name === "AbortError") {
+        alert("Request timeout. Please check your internet connection and try again.");
+      } else {
+        alert("Video upload failed: " + err.message);
+      }
+      return null;
+    } finally {
+      setProcessing(false);
+    }
   }
 
   function stopRecording() {
@@ -122,11 +167,10 @@ export default function RecorderPage({
           </div>
 
           <div
-            className={`px-4 py-2 rounded-xl border text-sm font-semibold ${
-              recording
-                ? "bg-red-500/15 border-red-500/40 text-red-300"
-                : "bg-white/5 border-white/10 text-gray-300"
-            }`}
+            className={`px-4 py-2 rounded-xl border text-sm font-semibold ${recording
+              ? "bg-red-500/15 border-red-500/40 text-red-300"
+              : "bg-white/5 border-white/10 text-gray-300"
+              }`}
           >
             {recording ? "● Recording" : "Idle"}
           </div>
@@ -172,7 +216,7 @@ export default function RecorderPage({
             <div className="flex gap-3">
               <button
                 onClick={startRecording}
-                disabled={recording}
+                disabled={recording || processing}
                 className="px-6 py-3 rounded-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:opacity-90 transition shadow-lg disabled:opacity-40"
               >
                 Start Recording
@@ -180,7 +224,7 @@ export default function RecorderPage({
 
               <button
                 onClick={stopRecording}
-                disabled={!recording}
+                disabled={!recording || processing}
                 className="px-6 py-3 rounded-xl font-bold bg-white/10 border border-white/10 hover:bg-white/20 transition disabled:opacity-40"
               >
                 Stop
@@ -242,6 +286,22 @@ export default function RecorderPage({
           </div>
         </div>
       </div>
+
+      {processing && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
+          <div className="max-w-lg w-full rounded-3xl border border-white/10 bg-slate-950/95 p-8 text-center shadow-2xl">
+            <div className="text-xl font-bold text-white mb-3">Processing your video</div>
+            <p className="text-gray-300 mb-6">
+              Uploading the recording to the backend and transcribing the audio.
+              Please wait while the model processes your speech.
+            </p>
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm text-gray-200">
+              <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
+              Processing...
+            </div>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }

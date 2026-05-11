@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-export default function ResultPage({ videoURL, activePrompts, onRestart }) {
+export default function ResultPage({ videoURL, videoMetadata, activePrompts, onRestart }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -44,21 +44,18 @@ export default function ResultPage({ videoURL, activePrompts, onRestart }) {
           </div>
 
           <div className="mt-6 bg-white/5 border border-white/10 rounded-2xl p-5">
-            <h3 className="text-sm font-semibold text-gray-200 mb-2">
-              Transcript (Demo)
+            <h3 className="text-sm font-semibold text-gray-200 mb-3">
+              Transcript
             </h3>
-            <p className="text-sm text-gray-300 leading-relaxed">
-              Today we discussed{" "}
-              <span className="text-white font-semibold">
-                {activePrompts.Mic_Check_Cards|| "Mic_Check_Cards"}
-              </span>{" "}
-              and how it connects with{" "}
-              <span className="text-white font-semibold">
-                {activePrompts.Challenge_Cards || "Challenge_Cards"}
-              </span>
-              . I explained the importance of clear communication and structured
-              responses.
-            </p>
+            {videoMetadata?.transcript ? (
+              <p className="text-sm text-gray-300 leading-relaxed whitespace-pre-wrap">
+                {videoMetadata.transcript}
+              </p>
+            ) : (
+              <p className="text-sm text-gray-400">
+                No transcript available.
+              </p>
+            )}
           </div>
         </div>
 
