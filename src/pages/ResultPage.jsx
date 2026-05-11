@@ -12,7 +12,7 @@ export default function ResultPage({ videoURL, videoMetadata, activePrompts, onR
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight">
-            AI Coaching Report
+            Your Performance Report
           </h1>
           <p className="text-gray-400 text-base mt-1">
             Review your recording and performance insights.
@@ -28,7 +28,7 @@ export default function ResultPage({ videoURL, videoMetadata, activePrompts, onR
       <div className="grid grid-cols-12 gap-6">
         {/* Video */}
         <div className="col-span-7 surface-card shadow-soft p-6">
-          <h2 className="text-sm text-slate-900 font-semibold mb-4">
+          <h2 className="text-lg text-slate-900 font-semibold mb-4">
             Playback
           </h2>
 
@@ -38,7 +38,7 @@ export default function ResultPage({ videoURL, videoMetadata, activePrompts, onR
 
           <div className="mt-6 surface-panel p-5">
             <h3 className="card-title text-slate-900">
-              Transcript
+              AI Generated Transcript
             </h3>
             {videoMetadata?.transcript ? (
               <p className="text-sm text-slate-900 leading-relaxed whitespace-pre-wrap">
@@ -57,7 +57,7 @@ export default function ResultPage({ videoURL, videoMetadata, activePrompts, onR
           {/* Metrics */}
           <div className="surface-panel shadow-soft p-6">
             <h2 className="section-title mb-4 text-slate-900">
-              Performance Summary
+              Performance Summary (Demo)
             </h2>
 
             <div className="grid grid-cols-3 gap-4 text-center">
@@ -81,7 +81,7 @@ export default function ResultPage({ videoURL, videoMetadata, activePrompts, onR
           {/* Selected Cards */}
           <div className="surface-card shadow-soft p-6">
             <h2 className="section-title mb-4 text-slate-900">
-              Selected Challenge Cards
+              Selected Prompt Cards
             </h2>
 
             <div className="flex flex-col gap-3">

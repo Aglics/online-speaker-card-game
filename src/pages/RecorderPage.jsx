@@ -157,16 +157,15 @@ export default function RecorderPage({
             Practice Studio
           </h1>
           <p className="text-gray-400 text-base mt-1">
-            Record your response and get AI coaching feedback instantly.
+            Improvise based on cards you flip, record your performance and get AI feedback instantly.
           </p>
         </div>
 
         <div
-          className={`px-4 py-3 rounded-xl border text-sm font-semibold ${
-            recording
-              ? "bg-[#ac1b14] border-[#ac1b14] text-white"
-              : "bg-slate-100 border-slate-200 text-slate-900"
-          }`}
+          className={`px-4 py-3 rounded-xl border text-sm font-semibold ${recording
+            ? "bg-[#ac1b14] border-[#ac1b14] text-white"
+            : "bg-slate-100 border-slate-200 text-slate-900"
+            }`}
         >
           {recording ? "● Recording" : "● Idle"}
         </div>
@@ -178,57 +177,57 @@ export default function RecorderPage({
         <div className="col-span-7 flex flex-col gap-6">
           {/* Video Card */}
           <div className="surface-card shadow-soft p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg text-slate-900 font-semibold">
-              Live Camera Feed
-            </h2>
-            <div className="text-slate-700 text-sm font-mono">
-              {formatTime(seconds)}
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg text-slate-900 font-semibold">
+                Live Camera Feed
+              </h2>
+              <div className="text-slate-700 text-sm font-mono">
+                {formatTime(seconds)}
+              </div>
             </div>
-          </div>
 
             <div className="relative rounded-2xl overflow-hidden bg-black aspect-video border border-slate-200">
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              playsInline
-              className="w-full h-full object-cover"
-            />
+              <video
+                ref={videoRef}
+                autoPlay
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              />
 
-            {recording && (
-              <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#ac1b14] border border-[#ac1b14] text-white text-xs font-bold animate-pulse">
-                ● LIVE
+              {recording && (
+                <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#ac1b14] border border-[#ac1b14] text-white text-xs font-bold animate-pulse">
+                  ● LIVE
+                </div>
+              )}
+            </div>
+
+            {/* Controls */}
+            <div className="flex items-center justify-between mt-6">
+              <div className="text-slate-700 text-sm">
+                Maximum recording:{" "}
+                <span className="text-slate-900 font-semibold">2 minutes</span>
               </div>
-            )}
-          </div>
 
-          {/* Controls */}
-          <div className="flex items-center justify-between mt-6">
-            <div className="text-slate-700 text-sm">
-              Maximum recording:{" "}
-              <span className="text-slate-900 font-semibold">2 minutes</span>
-            </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={startRecording}
+                  disabled={recording || processing}
+                  className="btn-primary disabled:opacity-40"
+                >
+                  Start Recording
+                </button>
 
-            <div className="flex gap-3">
-              <button
-                onClick={startRecording}
-                disabled={recording || processing}
-                className="btn-primary disabled:opacity-40"
-              >
-                Start Recording
-              </button>
-
-              <button
-                onClick={stopRecording}
-                disabled={!recording || processing}
-                className="btn-secondary disabled:opacity-40"
-              >
-                Stop
-              </button>
+                <button
+                  onClick={stopRecording}
+                  disabled={!recording || processing}
+                  className="btn-secondary disabled:opacity-40"
+                >
+                  Stop
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
           {/* Keywords */}
           <div className="surface-card shadow-soft p-6">
@@ -240,7 +239,7 @@ export default function RecorderPage({
           </div>
         </div>
 
-        {/* Right: Prompt Cards + AI Tip */}
+        {/* Right: Prompt Cards + Tip */}
         <div className="col-span-5 flex flex-col gap-6">
           {/* Cards */}
           <div className="surface-card shadow-soft p-6">
@@ -276,7 +275,7 @@ export default function RecorderPage({
           {/* AI Guidance */}
           <div className="surface-card shadow-soft p-6">
             <h2 className="text-base font-semibold text-slate-900 mb-3">
-              AI Tip
+              Professional Tip
             </h2>
             <p className="text-sm text-slate-700 leading-relaxed">
               Speak clearly, keep eye contact with the camera, and use keywords
@@ -291,8 +290,8 @@ export default function RecorderPage({
           <div className="max-w-lg w-full rounded-3xl border border-white/10 bg-slate-950/95 p-8 text-center shadow-2xl">
             <div className="text-xl font-bold text-white mb-3">Processing your video</div>
             <p className="text-gray-300 mb-6">
-              Uploading the recording to the backend and transcribing the audio.
-              Please wait while the model processes your speech.
+              Uploading the recording and transcribing the audio in the background.
+              Please wait while we processes your speech.
             </p>
             <div className="inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm text-gray-200">
               <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />

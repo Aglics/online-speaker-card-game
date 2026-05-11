@@ -17,7 +17,7 @@ export default function App() {
         {/* Sidebar */}
         <aside className="sidebar-panel shadow-soft">
           <div className="text-2xl font-extrabold tracking-tight">
-            AI<span className="text-[#ac1b14]">Speaker Testing</span>
+            Speaker <span className="text-[#ac1b14]">Card Game</span>
           </div>
 
           <div className="mt-8 flex flex-col gap-2 text-sm">
@@ -28,7 +28,7 @@ export default function App() {
           </div>
 
           <div className="mt-auto text-xs text-gray-400">
-            Demo Build • v1.0
+            Demo Build
           </div>
         </aside>
 

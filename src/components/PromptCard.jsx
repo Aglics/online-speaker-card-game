@@ -3,7 +3,7 @@ export default function PromptCard({ label, value, onClick }) {
     <div onClick={onClick} className="prompt-card">
       <div className="prompt-card-label">{label}</div>
       <div className="prompt-card-value">
-        {value || "Click to generate"}
+        {value || "Click to reveal"}
       </div>
     </div>
   );
